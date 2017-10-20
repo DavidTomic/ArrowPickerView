@@ -12,6 +12,7 @@
 		DB86F6611F9A315C006FCB9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB86F65F1F9A315C006FCB9A /* Main.storyboard */; };
 		DB86F6631F9A315C006FCB9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB86F6621F9A315C006FCB9A /* Assets.xcassets */; };
 		DB86F6661F9A315C006FCB9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB86F6641F9A315C006FCB9A /* LaunchScreen.storyboard */; };
+		DB86F66E1F9A3176006FCB9A /* ArrowPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB86F66D1F9A3176006FCB9A /* ArrowPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		DB86F6621F9A315C006FCB9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB86F6651F9A315C006FCB9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB86F6671F9A315C006FCB9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB86F66D1F9A3176006FCB9A /* ArrowPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				DB86F65B1F9A315C006FCB9A /* AppDelegate.swift */,
 				DB86F65D1F9A315C006FCB9A /* ViewController.swift */,
+				DB86F66D1F9A3176006FCB9A /* ArrowPickerView.swift */,
 				DB86F65F1F9A315C006FCB9A /* Main.storyboard */,
 				DB86F6621F9A315C006FCB9A /* Assets.xcassets */,
 				DB86F6641F9A315C006FCB9A /* LaunchScreen.storyboard */,
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB86F66E1F9A3176006FCB9A /* ArrowPickerView.swift in Sources */,
 				DB86F65E1F9A315C006FCB9A /* ViewController.swift in Sources */,
 				DB86F65C1F9A315C006FCB9A /* AppDelegate.swift in Sources */,
 			);

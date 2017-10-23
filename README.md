@@ -4,6 +4,8 @@
 
 ArrowPickerView provides nice way for selecting dropdown items when filling form.
 
+![](ArrowPickerView.png?raw=true "ArrowPickerView screenshot")
+
 ## Requirements
 * iOS10
 

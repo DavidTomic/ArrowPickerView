@@ -26,6 +26,7 @@ import ArrowPickerView
 let arrowPickerView = ArrowPickerView(rootView: self.view, delegate: self)
 let pickerArray = ["1", "2", "3", "4", "5"]
 arrowPickerView.show(pickerArray: pickerArray, inButton: sender)
+arrowPickerView.apperance.color = UIColor.green
 
 extension ViewController: ArrowPickerViewDelegate {
   
@@ -37,9 +38,26 @@ extension ViewController: ArrowPickerViewDelegate {
 }
 ```
 
+## Customization
+```Swift
+    var width: Int 
+    var height: Int 
+    var topBarHeight: Int 
+    var arrowWidth: Int 
+    var arrowHeight: Int 
+    var color: UIColor 
+    var coverViewColor: UIColor 
+    var doneButtonText: String 
+    var labelAttributedParameters: [NSAttributedStringKey: Any] 
+    var placeHolder: String? 
+    var isNavigationControllerVisible: Bool 
+    var spaceBetweenSelectedButtonAndSuperViewTop: Int
+    var spaceBetweenPickerAndSelectedButton: Int
+```
+
 ## Example Project
 
-An example project is included with this repo.  To run the example project, clone the repo, and run `pod install` from the Example directory first.
+An example project is included with this repo.  To run the example project, clone the repo and run.
 
 ## Author
 

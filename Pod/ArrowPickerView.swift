@@ -9,8 +9,8 @@
 import UIKit
 
 protocol ArrowPickerViewDelegate: class {
-  func arrowPickerDone(selectedRow: Int, inButton: UIButton)
-  func arrowPickerDidSelectRow(selectedRow: Int, inButton: UIButton)
+  func arrowPickerDone(row: Int, button: UIButton)
+  func arrowPickerDidSelectRow(row: Int, button: UIButton)
 }
 
 class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -18,26 +18,27 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   // MARK: Variables
   weak var delegate: ArrowPickerViewDelegate?
   var apperance: ArrowPickerViewApparance!
-  private let superView: UIView
+  private let rootView: UIView
   private let picker = UIPickerView()
   private let coverView = UIView()
   private var pickerArray: [String] = []
-  private var selectedField: UIButton!
+  private var selectedButon: UIButton!
   private let arrowViewTag = 100
   
   // MARK: Init
-  init(presentIn superView: UIView) {
-    self.superView = superView
+  init(rootView: UIView, delegate: ArrowPickerViewDelegate?) {
+    self.rootView = rootView
+    self.delegate = delegate
     super.init(frame: .zero)
     self.apperance = ArrowPickerViewApparance(pickerWidth: 250,
                                               pickerHeight: 250,
                                               topBarHeight: 40,
                                               arrowWidth: 15,
                                               arrowHeight: 10,
-                                              color: superView.tintColor,
+                                              color: rootView.tintColor,
                                               coverViewColor: UIColor.white,
                                               doneButtonText: "Done",
-                                              labelAttributedParameters: getDefaultAttributedParameters(),
+                                              labelAttributedParameters: getDefaultLabelAttributedParameters(),
                                               placeHolder: nil,
                                               isNavigationControllerVisible: true,
                                               spaceBetweenSelectedButtonAndSuperViewTop: 35,
@@ -59,7 +60,7 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     setupView()
   }
   
-  private func getDefaultAttributedParameters() -> [NSAttributedStringKey: Any] {
+  private func getDefaultLabelAttributedParameters() -> [NSAttributedStringKey: Any] {
     var attributedParameters = [NSAttributedStringKey: Any]()
     
     let style = NSMutableParagraphStyle()
@@ -97,21 +98,21 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     coverView.alpha = 0
     coverView.backgroundColor = apperance.coverViewColor
     if coverView.superview == nil {
-      superView.addSubview(coverView)
-      superView.addSubview(self)
+      rootView.addSubview(coverView)
+      rootView.addSubview(self)
     }
   }
   
   private var pickerStartPosition: CGFloat {
-    return superView.bounds.height
+    return rootView.bounds.height
   }
   
   private var superViewWidth: CGFloat {
-    return superView.bounds.width
+    return rootView.bounds.width
   }
   
   private var superViewHeight: CGFloat {
-    return superView.bounds.height
+    return rootView.bounds.height
   }
   
   private func createArrowView() -> UIView {
@@ -128,8 +129,8 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     pickerFrame.origin.x = selectButtonPosition.x + (selectButtonWidth/2) - (self.frame.width/2)
     if pickerFrame.origin.x < 20 {
       pickerFrame.origin.x = 20
-    } else if pickerFrame.maxX > superView.bounds.width {
-      pickerFrame.origin.x = superView.bounds.width - self.frame.width - 20
+    } else if pickerFrame.maxX > rootView.bounds.width {
+      pickerFrame.origin.x = rootView.bounds.width - self.frame.width - 20
     }
     self.frame = pickerFrame
     
@@ -170,27 +171,27 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   
   
   // MARK: Show picker
-  func show(pickerArray: [String], inButton selectedField: UIButton) {
-    self.selectedField = selectedField
+  func show(pickerArray: [String], inButton selectedButon: UIButton) {
+    self.selectedButon = selectedButon
     self.pickerArray = pickerArray
     if let placeHolder = apperance.placeHolder {
       self.pickerArray.insert(placeHolder, at: 0)
     }
     
     picker.reloadAllComponents()
-    setPickerPosition(currentValue: selectedField.currentTitle)
+    setPickerPosition(currentValue: self.selectedButon.currentTitle)
     
     let statusBarOffset: CGFloat = 20
     let navBarOffset: CGFloat = apperance.isNavigationControllerVisible ? 44 : 0
     
     let initialOffset = statusBarOffset + navBarOffset + CGFloat(apperance.spaceBetweenSelectedButtonAndSuperViewTop)
-    let selectedFieldOffset = selectedField.superview!.convert(selectedField.frame.origin, to: superView)
-    updatePositions(selectButtonPosition: selectedFieldOffset, selectButtonWidth: selectedField.frame.width)
+    let selectedFieldOffset = selectedButon.superview!.convert(selectedButon.frame.origin, to: rootView)
+    updatePositions(selectButtonPosition: selectedFieldOffset, selectButtonWidth: selectedButon.frame.width)
     
-    superView.bounds.origin = CGPoint(x: 0, y: (selectedFieldOffset.y - initialOffset))
+    rootView.bounds.origin = CGPoint(x: 0, y: (selectedFieldOffset.y - initialOffset))
     
     var frame = self.frame
-    frame.origin.y = selectedFieldOffset.y + selectedField.frame.height + CGFloat(apperance.spaceBetweenPickerAndSelectedButton)
+    frame.origin.y = selectedFieldOffset.y + selectedButon.frame.height + CGFloat(apperance.spaceBetweenPickerAndSelectedButton)
     setWhiteCoverViewFrame(frame: frame)
     
     UIView.animate(withDuration: 0.4, animations: {
@@ -203,7 +204,7 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   }
   
   private func setWhiteCoverViewFrame(frame: CGRect) {
-    var whiteCoverViewFrame = superView.frame
+    var whiteCoverViewFrame = rootView.frame
     whiteCoverViewFrame.origin.y = frame.minY
     coverView.frame = whiteCoverViewFrame
   }
@@ -224,14 +225,14 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     hide()
     if pickerArray.count > 0 {
       let row = picker.selectedRow(inComponent: 0)
-      selectedField?.setTitle(pickerArray[row], for: .normal)
-      delegate?.arrowPickerDone(selectedRow: row, inButton: selectedField)
+      selectedButon?.setTitle(pickerArray[row], for: .normal)
+      delegate?.arrowPickerDone(row: row, button: selectedButon)
     }
   }
   
   private func hide() {
     self.coverView.alpha = 0
-    superView.bounds.origin = CGPoint(x: 0, y: 0)
+    rootView.bounds.origin = CGPoint(x: 0, y: 0)
     
     var pickerFrame = self.frame
     pickerFrame.origin.y = pickerStartPosition
@@ -257,7 +258,7 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   }
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    delegate?.arrowPickerDidSelectRow(selectedRow: row, inButton: selectedField)
+    delegate?.arrowPickerDidSelectRow(row: row, button: selectedButon)
   }
   
   func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -269,7 +270,7 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
       label = UILabel()
     }
 
-    let attributedText = NSMutableAttributedString(string: pickerArray[row], attributes: apperance.labelAttributedParameters)
+    let attributedText = NSMutableAttributedString(string: " \(pickerArray[row]) ", attributes: apperance.labelAttributedParameters)
     label.attributedText = attributedText
     label.adjustsFontSizeToFitWidth = true
     label.minimumScaleFactor = 0.5
@@ -281,10 +282,10 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   // MARK: ArrowPickerViewApparance
   class ArrowPickerViewApparance {
     var width: Int { didSet { arrowPickerView.setupView() } }
+    var height: Int { didSet { arrowPickerView.setupView() } }
     var topBarHeight: Int { didSet { arrowPickerView.setupView() } }
     var arrowWidth: Int { didSet { arrowPickerView.setupView() } }
     var arrowHeight: Int { didSet { arrowPickerView.setupView() } }
-    var height: Int { didSet { arrowPickerView.setupView() } }
     var color: UIColor { didSet { arrowPickerView.setupView() } }
     var coverViewColor: UIColor { didSet { arrowPickerView.setupView() } }
     var doneButtonText: String { didSet { arrowPickerView.setupView() } }

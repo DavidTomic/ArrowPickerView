@@ -4,7 +4,7 @@
 
 ArrowPickerView provides nice way for selecting dropdown items when filling form.
 
-![](ArrowPickerView.png?raw=true "ArrowPickerView screenshot")
+![](image.png?raw=true "ArrowPickerView screenshot")
 
 ## Requirements
 * iOS10
@@ -34,7 +34,7 @@ extension ViewController: ArrowPickerViewDelegate {
   
   func arrowPickerDidSelectRow(row: Int, button: UIButton) {
   }
-
+}
 ```
 
 ## Example Project

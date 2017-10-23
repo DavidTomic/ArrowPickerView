@@ -24,9 +24,10 @@ pod "ArrowPickerView"
 import ArrowPickerView
 
 let arrowPickerView = ArrowPickerView(rootView: self.view, delegate: self)
+arrowPickerView.apperance.color = UIColor.green
+
 let pickerArray = ["1", "2", "3", "4", "5"]
 arrowPickerView.show(pickerArray: pickerArray, inButton: sender)
-arrowPickerView.apperance.color = UIColor.green
 
 extension ViewController: ArrowPickerViewDelegate {
   

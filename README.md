@@ -55,6 +55,11 @@ extension ViewController: ArrowPickerViewDelegate {
     var spaceBetweenSelectedButtonAndSuperViewTop: Int
     var spaceBetweenPickerAndSelectedButton: Int
 ```
+## Scroll Tip
+
+When using this widget inside scrollView, please make sure you select View for your top constraint, see the below:
+
+![](scroll_image.png?raw=true "ArrowPickerView screenshot")
 
 ## Example Project
 

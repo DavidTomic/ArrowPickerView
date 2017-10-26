@@ -57,7 +57,7 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   }
   
   @objc func orientationChanged() {
-    setupView()
+    hide(animate: false)
   }
   
   private func getDefaultLabelAttributedParameters() -> [NSAttributedStringKey: Any] {
@@ -226,20 +226,26 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     if pickerArray.count > 0 {
       let row = picker.selectedRow(inComponent: 0)
       selectedButon?.setTitle(pickerArray[row], for: .normal)
-      delegate?.arrowPickerDone(row: row, button: selectedButon)
+      
+      let selectedRow = apperance.placeHolder == nil ? row : (row - 1)
+      delegate?.arrowPickerDone(row: selectedRow, button: selectedButon)
     }
   }
   
-  private func hide() {
+  private func hide(animate: Bool = true) {
     self.coverView.alpha = 0
     rootView.bounds.origin = CGPoint(x: 0, y: 0)
     
     var pickerFrame = self.frame
     pickerFrame.origin.y = pickerStartPosition
     
-    UIView.animate(withDuration: 0.4, animations: {
+    if animate {
+      UIView.animate(withDuration: 0.4, animations: {
+        self.frame = pickerFrame
+      }) { (finished) in
+      }
+    } else {
       self.frame = pickerFrame
-    }) { (finished) in
     }
   }
   
@@ -258,7 +264,8 @@ class ArrowPickerView: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
   }
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    delegate?.arrowPickerDidSelectRow(row: row, button: selectedButon)
+    let selectedRow = apperance.placeHolder == nil ? row : (row - 1)
+    delegate?.arrowPickerDidSelectRow(row: selectedRow, button: selectedButon)
   }
   
   func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {

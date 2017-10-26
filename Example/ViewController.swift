@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+  
   var arrowPickerView: ArrowPickerView!
   
   override func viewDidLoad() {
@@ -32,21 +32,25 @@ class ViewController: UIViewController {
     }
     return [""]
   }
-
+  
 }
 
 extension ViewController: ArrowPickerViewDelegate {
   
   func arrowPickerDone(row: Int, button: UIButton) {
-    let b = button as! FormButton
-    print("arrowPickerDone row: \(row), button: \(String(describing: b.formType))")
+    let formButton = button as! FormButton
+    print("arrowPickerDone row: \(row), button: \(String(describing: formButton.formType))")
   }
   
   func arrowPickerDidSelectRow(row: Int, button: UIButton) {
     let formButton = button as! FormButton
     if formButton.formType == "yearFrom" || formButton.formType == "yearTo" {
-      let value = getPickerArray(button: formButton)[row]
-      formButton.setTitle(value, for: .normal)
+      if row != -1 {
+        let value = getPickerArray(button: formButton)[row]
+        formButton.setTitle(value, for: .normal)
+      } else {
+        print("arrowPickerDidSelectRow row: \(row), button: \(String(describing: formButton.formType))")
+      }
     }
   }
 }
